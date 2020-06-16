@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="icon" href="images/favicon.ico">
+        
+        <title>CoolClimate Emissions Dashboard</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug
+        <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet"> -->
+
+        <!-- Custom styles for this template -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+        
+        <!-- Stylesheets for the jQuery UI slider -->
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.4/themes/flick/jquery-ui.css">
+        <link rel="stylesheet" href="css/jquery-ui-slider-pips.css">
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+            <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">CoolClimate Network</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#">Dashboard</a></li>
+                        <li><a href="#">Settings</a></li>
+                        <li><a href="#">Profile</a></li>
+                        <li><a href="#">Help</a></li>
+                    </ul>
+                    <form class="navbar-form navbar-right">
+                        <input type="text" class="form-control" placeholder="Search...">
+                    </form>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-4 col-md-4">
+                    
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4 col-md-4 sidebar">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <h3>Annual Emissions through 2050</h3>
+                        <text id="emissionsTractsLegend"></text>
+                        <svg class="linechart" id="emissionsTractsChart"></svg>
+                        <h4 id="emissionsChartTitle">Loading Data…</h4>
+                        <span class="text-muted" id="emissionsTractsText"></span>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <h3>Average Household Emissions by Year</h3>
+                        <text>Year: </text><form id="stackedEmissionsSelector">
+                            <select name="year">
+                                <option value="2010">2010</option>
+                                <option value="2015">2015</option>
+                                <option value="2020">2020</option>
+                                <option value="2025">2025</option>
+                                <option value="2030">2030</option>
+                                <option value="2035">2035</option>
+                                <option value="2040">2040</option>
+                                <option value="2045">2045</option>
+                                <option value="2050">2050</option>
+                            </select>
+                        </form>
+                        <svg class="barchart" id="stackedEmissionsChart"></svg>
+                        <h4>Household Emissions (tons)</h4>
+                        <text class="text-muted" id="stackedEmissionsText">Mouseover text</text>
+                    </div>
+                </div>
+                
+                <div class="col-sm-8 col-sm-offset-4 col-md-8 col-md-offset-4 main">
+                    <h1 class="page-header">CoolClimate Emissions Dashboard</h1>
+                    
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                Select a location:
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <form id="cityButton">
+                                                <input type="radio" name="city" value="city" checked> City
+                                            </form>
+                                        </th>
+                                        <th>
+                                            <form id="countyButton">
+                                                <input type="radio" name="county" value="county" > County
+                                            </form>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <form id="cityMenu">
+                                                <select name="city">
+                                                    <option value="BERKELEY">Loading…</option>
+                                                </select>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form id="countyMenu">
+                                                <select name="county">
+                                                    <option value="Alameda">Loading…</option>
+                                                </select>
+                                            </form>
+                                        </td>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    
+                    <h2 class="sub-header">Policy Dashboard</h2>
+                    <!-- table -->
+                    <div class="row">
+                        <!-- headers -->
+                        <div class="table-responsive" style="display:null">
+                            <div id="policiesTable" style="width:100%">
+                            <table class="table table-striped">
+                                <thead>
+                                    <th>
+                                        <div class="col-lg-3 col-med-3 col-sm-3 col-xs-3">
+                                            <p>Policy</p>                        
+                                        </div>
+                                        <div class="col-lg-5 col-med-5 col-sm-5 col-xs-5">
+                                            <p>Implementation Level</p>
+                                            
+                                        </div>
+                                        <div class="col-lg-4 col-med-4 col-sm-4 col-xs-4">
+                                            <p>Implementation Rate</p>
+                                            <text class="text-muted">Year of 25%, 50%, 75%, and 100% impact</text>
+                                            <br>
+                                        </div>
+                                    </th>
+                                </thead>
+                                
+                                <!-- table elements of slider bars, dynamically adjusting to width -->
+                                
+                                    <tr>
+                                        <td id="VMT">
+                                            <div class="col-lg-3 col-med-3 col-sm-12 col-xs-12">
+                                                <p>VMT Slider</p>                        
+                                            </div>
+                                            <div class="col-lg-5 col-med-5 col-sm-6 col-xs-12">
+                                                <br>
+                                                <div id="VMTslider"></div>
+                                                <br>
+                                            </div>
+                                            <div class="col-lg-4 col-med-4 col-sm-6 col-xs-12">
+                                                <br>
+                                                <div id="VMTadoptioncurve"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="col-lg-3 col-med-3 col-sm-12 col-xs-12">
+                                                <p>Next Slider</p>                        
+                                            </div>
+                                            <div class="col-lg-5 col-med-5 col-sm-6 col-xs-12">
+                                                <div id="">FDAS</div>
+                                            </div>
+                                            <div class="col-lg-4 col-med-4 col-sm-6 col-xs-12">
+                                                <div id="">DAFS</div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                    
+                    <div class="table-responsive" style="display:none">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Policy</th>
+                                    <th>Description</th>
+                                    <th>Level</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>VMT Adj</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>1,002</td>
+                                    <td>amet</td>
+                                    <td>consectetur</td>
+                                </tr>
+                                <tr>
+                                    <td>1,003</td>
+                                    <td>Integer</td>
+                                    <td>nec</td>
+                                </tr>
+                                <tr>
+                                    <td>1,003</td>
+                                    <td>libero</td>
+                                    <td>Sed</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.7.4/d3.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <script src="js/extrapolate.js"></script>
+
+        <script>
+            /* window.jQuery || document.write('<script src="js/vendor/jquery.min.js"><\/script>') */
+        </script>
+        <script src="./js/bootstrap.min.js"></script>
+        <script src="./main.js"></script>
+        <script src="./js/jquery-ui-slider-pips.js"></script>
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <!-- <script src="js/ie10-viewport-bug-workaround.js"></script> -->
+        
+    </body>
+</html>

@@ -1,0 +1,199 @@
+
+Transportation Model
+    var model;
+    
+    if (COUNTY === "Alameda" || COUNTY === "Contra Costa" || COUNTY === "Marin" || COUNTY === "San Francisco" || COUNTY === "San Mateo") {
+        return "San Francisco";
+     else if (COUNTY === "Santa Clara" || COUNTY === "San Benito") {
+        return "Santa Clara";
+     else if (COUNTY === "El Dorado" || COUNTY === "Placer" || COUNTY === "Sacramento" || COUNTY === "Yolo") {
+        return "Sacramento";
+     else if (COUNTY === "San Diego") {
+        return "San Diego";
+     else if (COUNTY === "Los Angeles" || COUNTY === "Orange") {
+        return "Los Angeles";
+     else if (COUNTY === "Riverside" || COUNTY === "San Bernardino") {
+        return "Riverside";
+     else {
+        return "Other";
+
+
+VMT
+    var model = VMTMODEL[Transportation Model()],
+        result =  Math.exp(model.Constant + model.LNVEH * Math.log(locale.VEHICLES) + model.LNHHSIZE * Math.log(locale.HHSIZE) + model.LNHHINC * Math.log(locale.INCOME2013) + model.WORKCOUNT * locale.WORKCNT + model.TIMETOWORK * locale.TIMETOWORK + model.DRIVE * locale.CARCOMMUTE + model.HHVEHCOUNT * locale.VEHICLES + model.HBPOPDN * locale.DENSITY + model.HHSIZE * locale.HHSIZE + model.HHINC * locale.INCOME2013 + model.WHITE * locale.WHITE + model.HOMEOWN * locale.OWN + model.HISP * locale.LATINO);
+    
+    return result;
+             
+
+Natural Gas
+    var NGCONSTANT = 1.074,
+        NGGASCOEF = 2.911,
+        NGROOMSCOEF = 0.331,
+        NGYEARBUILTCOEF = 0.008575,
+        NGASIANCOEF = -0.499,
+        NGHHSIZELNCOEF = 0.314,
+        NGWHITECOEF = -0.369,
+        NGGRADCOEF = -0.234,
+        NGSQFTCOEF = 0.0001536,
+        NGOWNCOEF = -0.261,
+        NGSINGDETCOEF = 0.221,
+        REFYEAR = 2013,
+        
+        result;
+
+    result = Math.exp((NGCONSTANT + NGGASCOEF * locale.GAS + NGROOMSCOEF * locale.ROOMS + NGYEARBUILTCOEF * (REFYEAR - locale.YEARBUILT) + NGASIANCOEF * locale.ASIAN + NGHHSIZELNCOEF * Math.log(locale.HHSIZE) + NGWHITECOEF * (locale.WHITE / 2) + NGGRADCOEF * locale.GRAD + NGSQFTCOEF * locale.SQFT + NGOWNCOEF * locale.OWN + NGSINGDETCOEF * locale.SINGDET));
+
+
+
+Air Travel Distance
+    var AIR Travel CONSTANT = 33.088,
+        AIRINCOMECOEF = 0.0633;
+    
+    return (AIR Travel CONSTANT + AIRINCOMECOEF * locale.INCOME2007);
+
+
+HSR Travel (year) {
+    var perCapitaMiles = 0,
+        mpo = locale.MPO,
+        pop = 0;
+    
+    pop = mpoPopCalc(year);
+    
+    perCapitaMiles = MPOHSRTABLE[mpo][year] / pop;
+    
+    return perCapitaMiles;
+
+
+Light Rail Travel 
+    return (locale["Subway Commuters"] * PUBLICTRANSTABLE[COUNTY].CommuterRailMilesPerCommuter / locale.WORKERS * locale.WORKCNT);
+
+
+Heavy Rail Travel 
+    return (locale["Railroad Commuters"] * PUBLICTRANSTABLE[COUNTY].AmtrakMilesPerCommuter / locale.WORKERS * locale.WORKCNT);
+
+
+Bus Travel 
+    return (locale["Bus Commuters"] * PUBLICTRANSTABLE[COUNTY].BusMilesPerCommuter / locale.WORKERS * locale.WORKCNT);
+
+
+Water Use
+    var WATERHHSIZECOEF = 25550; // 70 gal/day/person * 365 days/yr
+    
+    return (WATERHHSIZECOEF * locale.HHSIZE);
+
+
+Vehicle maintenance
+    var VMNTCONSTANT = 78.20,
+        VMNTINCOME07COEF = 0.0021,
+        AUTOPARTHHSIZECOEF =  7.80,
+        VEHSERVCONSTANT =  158.78,
+        VEHSERVINCOMECOEF =  0.0043,
+        VEHSERVEHHSIZECOEF =  15.83;
+        
+    return ((VMNTCONSTANT + VMNTINCOME07COEF * locale.INCOME2007 + AUTOPARTHHSIZECOEF * locale.HHSIZE) + (VEHSERVCONSTANT + VEHSERVINCOMECOEF * locale.INCOME2007 + VEHSERVEHHSIZECOEF * locale.HHSIZE));
+
+
+kWh Use
+    var KWHCONSTANT = 5.029,
+        KWHROOMSCOEF = 0.09255,
+        KWHLNCDDSQFTCOEF = 0.124,
+        KWHLNHHSIZECOEF = 0.362,
+        KWHLNINCOME13COEF = 0.09992,
+        KWHASIANCOEF = -0.203,
+        KWHGASCOEF = -0.212,
+        KWHOWNCOEF = 0.133,
+        KWHSQFTCOEF = 0.0001046,
+        KWHGRADCOEF = -0.109,
+        KWHSINGDETCOEF = 0.08848;
+    
+    return (Math.exp(KWHCONSTANT + KWHROOMSCOEF * locale.ROOMS + KWHLNCDDSQFTCOEF * Math.log(locale.CDD * locale.SQFT) + KWHLNHHSIZECOEF * Math.log(locale.HHSIZE) + KWHLNINCOME13COEF * Math.log(locale.INCOME2013) + KWHASIANCOEF * locale.ASIAN + KWHGASCOEF * locale.GAS + KWHOWNCOEF * locale.OWN + KWHSQFTCOEF * locale.SQFT + KWHGRADCOEF * locale.GRAD + KWHSINGDETCOEF * locale.SINGDET));
+
+
+Oil Use
+    var FOCONSTANT = 228.95,
+        FOROOMSCOEF = 75.846,
+        FOREGIONCOEF = 128.895,
+        FOOWNCOEF = -164.353,
+        FOAGECOEF = 2.836,
+        FODIV1COEF = 99.678,
+        FOWHITECOEF = -94.047,
+        
+        REGION = 0,
+        DIV1 = 0;
+    
+    return ((FOCONSTANT + FOROOMSCOEF * locale.ROOMS + FOREGIONCOEF * REGION + FOOWNCOEF * locale.OWN + FOAGECOEF * locale.AGE + FODIV1COEF * DIV1 + FOWHITECOEF * locale.WHITE) * locale.OTHERFUEL);
+
+
+Waste Generation
+    if (MSWTABLE[COUNTY].DISPOSALRATE) {
+        return (MSWTABLE[COUNTY].DISPOSALRATE);
+     else {
+        return (0.5);
+    
+
+
+Housing Construction
+    return (((0.0097 * Math.pow(locale.SQFT, 2) - 10.012 * locale.SQFT + 80256) / 70) * 1000); // gCO2/HH, amortized over 70 years
+
+
+Meat Consumption
+    var ADULTMEATCAL = 487,
+        CHILDMEATCAL = 365;
+    return ((ADULTMEATCAL * locale.Adults + CHILDMEATCAL * locale.Children) * 365);
+
+
+Dairy Consumption
+    var ADULTDAIRYCAL = 232,
+        CHILDDAIRYCAL = 174;
+    return ((ADULTDAIRYCAL * locale.Adults + CHILDDAIRYCAL * locale.Children) * 365);
+
+
+Other Food Consumption
+    var ADULTOTHERCAL = 1170,
+        CHILDOTHERCAL = 877;
+    return ((ADULTOTHERCAL * locale.Adults + CHILDOTHERCAL * locale.Children) * 365);
+
+
+Vegetable Consumption
+    var ADULTVEGECAL = 304,
+        CHILDVEGECAL = 228;
+    return ((ADULTVEGECAL * locale.Adults + CHILDVEGECAL * locale.Children) * 365);
+
+
+Cereal Consumption
+    var ADULTCEREALCAL = 584,
+        CHILDCEREALCAL = 438;
+    
+    return ((ADULTCEREALCAL * locale.Adults + CHILDCEREALCAL * locale.Children) * 365);
+
+
+Clothing
+    var CLOTHCONSTANT = 75.63,
+        CLOTHINCOME07COEF =  0.0149,
+        CLOTHHHSIZECOEF =  323.60;
+    
+    return (CLOTHCONSTANT + CLOTHINCOME07COEF * locale.INCOME2007 + CLOTHHHSIZECOEF * locale.HHSIZE);
+
+
+Furnishings
+    var FURCONSTANT =  278.96,
+        FURINCOME07COEF =  0.0231,
+        FURHHSIZECOEF =  27.70;
+    
+    return (FURCONSTANT + FURINCOME07COEF * locale.INCOME2007 + FURHHSIZECOEF * locale.HHSIZE);
+
+
+Other Goods
+    var OTHERGOODSCONSTANT =  2769.82,
+        OTHERGOODSINCOME07COEF =  0.0291,
+        OTHERGOODSHHSIZECOEF =  100.70;
+    
+    return (OTHERGOODSCONSTANT + OTHERGOODSINCOME07COEF * locale.INCOME2007 + OTHERGOODSHHSIZECOEF * locale.HHSIZE);
+
+
+Services
+    var SERVICESCONSTANT =  3939.74,
+        SERVICESINCOME07COEF =  0.1428,
+        SERVICESHHSIZECOEF =  102.47;
+    
+    return (SERVICESCONSTANT + SERVICESINCOME07COEF * locale.INCOME2007 + SERVICESHHSIZECOEF * locale.HHSIZE);

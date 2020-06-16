@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<style>
+
+.axis .domain {
+  display: none;
+}
+
+</style>
+<svg width="960" height="500"></svg>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+var svg = d3.select("svg"),
+    margin = {top: 20, right: 20, bottom: 30, left: 40},
+    width = +svg.attr("width") - margin.left - margin.right,
+    height = +svg.attr("height") - margin.top - margin.bottom,
+    g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var x = d3.scaleBand()
+    .rangeRound([0, width])
+    .paddingInner(0.05)
+    .align(0.1);
+
+var y = d3.scaleLinear()
+    .rangeRound([height, 0]);
+
+var z = d3.scaleOrdinal()
+// 20 sectors 4 categories: 6, 5, 5, 6
+    .range(["darkred", "red", "crimson", "firebrick", "deeppink", "pink", "tomato",
+            "darkgoldenrod", "peru", "goldenrod", "orange", "gold", "yellow", 
+            "darkgreen", "seagreen", "green", "forestgreen", "springgreen",
+            "navy", "mediumblue", "royalblue", "purple"]);
+
+var yearSet = "2010";
+var data, data2, dataIntermediate, dataFinal;
+
+function dataParse() {
+    $.when(
+        $.getJSON('https://coolclimatenetwork.github.io/test/sample.json', function (importedSAMPLE) {
+            data = importedSAMPLE;
+        })
+    ).then(function() {
+        //data = JSON.parse(fs.readFileSync('./test/sample.json'));
+        //data = JSON.parse(????);
+
+        data.Transportation = {};
+        data.Housing = {};
+        data.Food = {};
+        data.Goods = {};
+
+        data.Transportation.AirTravel = data.Transportation.HSR = data.Transportation.HeavyRail = data.Transportation.LightRail = data.Transportation.Bus = data.Transportation.VMT = data.Housing.kWh = data.Housing.NaturalGas = data.Housing.FuelOil = data.Housing.Water = data.Housing.Waste = data.Food.Meat = data.Food.Dairy = data.Food.OtherFood = data.Food.Veggies = data.Food.Cereal = data.Goods.Clothing = data.Goods.Furnishings = data.Goods.OtherGoods = data.Housing.HousingConstruction = data.Transportation.vehicleMaintenance = data.Services = 0;
+        
+        var tracts = 0;
+
+        for (var cle in data) {
+            if (data[cle].sum) {
+                tracts++;
+                data.Transportation.AirTravel += +data[cle].AirTravel;
+                data.Transportation.HSR += +data[cle].HSR;
+                data.Transportation.HeavyRail += +data[cle].HeavyRail;
+                data.Transportation.LightRail += +data[cle].LightRail;
+                data.Transportation.Bus += +data[cle].Bus;
+                data.Transportation.VMT += +data[cle].VMT;
+                data.Housing.kWh += +data[cle].kWh;
+                data.Housing.NaturalGas += +data[cle].NaturalGas;
+                data.Housing.FuelOil += +data[cle].FuelOil;
+                data.Housing.Water += +data[cle].Water;
+                data.Housing.Waste += +data[cle].Waste;
+                data.Food.Meat += +data[cle].Meat;
+                data.Food.Dairy += +data[cle].Dairy;
+                data.Food.OtherFood += +data[cle].OtherFood;
+                data.Food.Veggies += +data[cle].Veggies;
+                data.Food.Cereal += +data[cle].Cereal;
+                data.Goods.Clothing += +data[cle].Clothing;
+                data.Goods.Furnishings += +data[cle].Furnishings;
+                data.Goods.OtherGoods += +data[cle].OtherGoods;
+                data.Housing.HousingConstruction += +data[cle].HousingConstruction;
+                data.Transportation.vehicleMaintenance += +data[cle].vehicleMaintenance;
+                data.Services += +data[cle].Services;
+                }
+        }
+        
+        data.Transportation.AirTravel = data.Transportation.AirTravel / (tracts * 1000000); 
+        data.Transportation.HSR = data.Transportation.HSR / (tracts * 1000000);
+        data.Transportation.HeavyRail = data.Transportation.HeavyRail / (tracts * 1000000);
+        data.Transportation.LightRail = data.Transportation.LightRail / (tracts * 1000000);
+        data.Transportation.Bus = data.Transportation.Bus / (tracts * 1000000);
+        data.Transportation.VMT = data.Transportation.VMT / (tracts * 1000000);
+        data.Housing.kWh = data.Housing.kWh / (tracts * 1000000);
+        data.Housing.NaturalGas = data.Housing.NaturalGas / (tracts * 1000000);
+        data.Housing.FuelOil = data.Housing.FuelOil / (tracts * 1000000);
+        data.Housing.Water = data.Housing.Water / (tracts * 1000000);
+        data.Housing.Waste = data.Housing.Waste / (tracts * 1000000);
+        data.Housing.HousingConstruction = data.Housing.HousingConstruction / (tracts * 1000000);
+        data.Food.Meat = data.Food.Meat / (tracts * 1000000);
+        data.Food.Dairy = data.Food.Dairy / (tracts * 1000000);
+        data.Food.OtherFood = data.Food.OtherFood / (tracts * 1000000);
+        data.Food.Veggies = data.Food.Veggies / (tracts * 1000000);
+        data.Food.Cereal = data.Food.Cereal / (tracts * 1000000);
+        data.Goods.Clothing = data.Goods.Clothing / (tracts * 1000000);
+        data.Goods.Furnishings = data.Goods.Furnishings / (tracts * 1000000);
+        data.Goods.OtherGoods = data.Goods.OtherGoods / (tracts * 1000000);
+        data.Transportation.vehicleMaintenance = data.Transportation.vehicleMaintenance / (tracts * 1000000);
+        data.Services = data.Services / (tracts * 1000000);
+        
+        
+        data.Transportation.total = data.Transportation.AirTravel + data.Transportation.HSR + data.Transportation.HeavyRail + data.Transportation.LightRail + data.Transportation.Bus + data.Transportation.VMT + data.Transportation.vehicleMaintenance;
+        
+        data.Housing.total = data.Housing.HousingConstruction + data.Housing.kWh + data.Housing.NaturalGas + data.Housing.FuelOil + data.Housing.Water + data.Housing.Waste;
+        
+        data.Food.total = data.Food.Meat + data.Food.Dairy + data.Food.OtherFood + data.Food.Veggies + data.Food.Cereal;
+        data.Goods.total = data.Goods.Clothing + data.Goods.Furnishings + data.Goods.OtherGoods;
+         + data.Transportation.vehicleMaintenance + data.Services;
+        
+        
+        keys = ["VMT", "AirTravel", "vehicleMaintenance", "Bus", "HeavyRail", "LightRail", "HSR", "kWh", "NaturalGas", "FuelOil", "Water", "Waste", "HousingConstruction",  "Meat", "Dairy", "OtherFood", "Veggies", "Cereal", "Clothing", "Furnishings", "OtherGoods", "Services"];
+
+        data2 = [
+            {
+                category: 'Transportation',
+                VMT: data.Transportation.VMT,
+                AirTravel: data.Transportation.AirTravel,
+                vehicleMaintenance: data.Transportation.vehicleMaintenance,
+                HeavyRail: data.Transportation.HeavyRail,
+                Bus: data.Transportation.Bus,
+                LightRail: data.Transportation.LightRail,
+                HSR: data.Transportation.HSR,
+                kWh: 0,
+                NaturalGas: 0,
+                FuelOil: 0,
+                Water: 0,
+                Waste: 0,
+                Meat: 0,
+                Dairy: 0,
+                OtherFood: 0,
+                Veggies: 0,
+                Cereal: 0,
+                Clothing: 0,
+                Furnishings: 0,
+                OtherGoods: 0,
+                HousingConstruction: 0,
+                Services: 0, 
+                total: data.Transportation.total
+            },
+            {
+                category: 'Housing',
+                VMT: 0,
+                AirTravel: 0,
+                vehicleMaintenance: 0,
+                Bus: 0,
+                HeavyRail: 0,
+                LightRail: 0,
+                HSR: 0,
+                kWh: data.Housing.kWh,
+                NaturalGas: data.Housing.NaturalGas,
+                FuelOil: data.Housing.FuelOil,
+                Water: data.Housing.Water,
+                Waste: data.Housing.Waste,
+                HousingConstruction: data.Housing.HousingConstruction,
+                Meat: 0,
+                Dairy: 0,
+                OtherFood: 0,
+                Veggies: 0,
+                Cereal: 0,
+                Clothing: 0,
+                Furnishings: 0,
+                OtherGoods: 0,
+                Services: 0,
+                total: data.Housing.total
+            },
+            {
+                category: 'Food',
+                VMT: 0,
+                AirTravel: 0,
+                vehicleMaintenance: 0,
+                Bus: 0,
+                HeavyRail: 0,
+                LightRail: 0,
+                HSR: 0,
+                kWh: 0,
+                NaturalGas: 0,
+                FuelOil: 0,
+                Water: 0,
+                Waste: 0,
+                HousingConstruction: 0,
+                Meat: data.Food.Meat,
+                Dairy: data.Food.Dairy,
+                OtherFood: data.Food.OtherFood,
+                Veggies: data.Food.Veggies,
+                Cereal: data.Food.Cereal,
+                Clothing: 0,
+                Furnishings: 0,
+                OtherGoods: 0,
+                Services: 0,
+                total: data.Food.total
+            },
+            
+            {
+                category: 'Goods',
+                VMT: 0,
+                AirTravel: 0,
+                vehicleMaintenance: 0,
+                Bus: 0,
+                HeavyRail: 0,
+                LightRail: 0,
+                HSR: 0,
+                kWh: 0,
+                NaturalGas: 0,
+                FuelOil: 0,
+                Water: 0,
+                Waste: 0,
+                HousingConstruction: 0,
+                Meat: 0,
+                Dairy: 0,
+                OtherFood: 0,
+                Veggies: 0,
+                Cereal: 0,
+                Clothing: data.Goods.Clothing,
+                Furnishings: data.Goods.Furnishings,
+                OtherGoods: data.Goods.OtherGoods,
+                Services: 0,
+                total: data.Goods.total
+            },
+            {
+                category: 'Services',
+                VMT: 0,
+                AirTravel: 0,
+                vehicleMaintenance: 0,
+                Bus: 0,
+                HeavyRail: 0,
+                LightRail: 0,
+                HSR: 0,
+                kWh: 0,
+                NaturalGas: 0,
+                FuelOil: 0,
+                Water: 0,
+                Waste: 0,
+                HousingConstruction: 0,
+                Meat: 0,
+                Dairy: 0,
+                OtherFood: 0,
+                Veggies: 0,
+                Cereal: 0,
+                Clothing: 0,
+                Furnishings: 0,
+                OtherGoods: 0,
+                Services: data.Services,
+                total: data.Services
+            }
+        ];
+        
+        var stack = d3.stack().keys(keys)
+                        .order(d3.stackOrderNone)
+                        .offset(d3.stackOffsetNone);
+        
+        x.domain(data2.map(function(d) { return d.category; }));
+        y.domain([0, d3.max(data2, function(d) { return d.total; })]).nice();
+        z.domain(keys);
+        
+        dataFinal = stack(data2);
+
+        g.append("g")
+        .selectAll("g")
+        .data(dataFinal)
+        .enter().append("g")
+          .attr("fill", function(d) { return z(d.key); })
+        .selectAll("rect")
+        .data(function(d) { 
+            for (var q = 0; q < 5; q++) {
+                d[q].key = d.key;
+            }
+            console.log(d); return d; })
+        .enter().append("rect")
+            .attr("x", function(d) { return x(d.data.category); })
+            .attr("y", function(d) { return y(d[1]); })
+            .attr("height", function(d) { return y(d[0]) - y(d[1]); })
+            .attr("width", x.bandwidth());
+
+        g.append("g")
+            .attr("class", "axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x));
+
+        g.append("g")
+            .attr("class", "axis")
+            .call(d3.axisLeft(y).ticks(null, "s"))
+        .append("text")
+            .attr("x", 2)
+            .attr("y", y(y.ticks().pop()) + 0.5)
+            .attr("dy", "0.32em")
+            .attr("fill", "#000")
+            .attr("font-weight", "bold")
+            .attr("text-anchor", "start")
+            .text("Average Household Carbon Footprint");
+        
+        g.selectAll("rect")
+           .on("mouseover", function(d){
+
+                  var delta = (d[1] - d[0]).toFixed(2);
+                  var xPos = parseFloat(d3.select(this).attr("x"));
+                  var yPos = parseFloat(d3.select(this).attr("y"));
+                  var height = parseFloat(d3.select(this).attr("height"));
+            
+                  d3.select(this).attr("stroke","blue").attr("stroke-width",0.8);
+
+                  svg.append("text")
+                  .attr("x",xPos)
+                  .attr("y",yPos +height/2)
+                  .attr("class","tooltip")
+                  .text(d.key +": "+ delta); 
+
+               })
+               .on("mouseout",function(){
+                  //svg.select(".tooltip").remove();
+                  d3.select(this).attr("stroke","pink").attr("stroke-width",0.2);
+
+                })
+        
+        var legend = g.append("g")
+            .attr("font-family", "sans-serif")
+            .attr("font-size", 10)
+            .attr("text-anchor", "end")
+        .selectAll("g")
+        .data(keys.slice().reverse())
+        .enter().append("g")
+            .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+        legend.append("rect")
+            .attr("x", width - 19)
+            .attr("width", 19)
+            .attr("height", 19)
+            .attr("fill", z);
+
+        legend.append("text")
+            .attr("x", width - 24)
+            .attr("y", 9.5)
+            .attr("dy", "0.32em")
+            .text(function(d) { return d; });
+        })
+}
+
+dataParse();
+</script>

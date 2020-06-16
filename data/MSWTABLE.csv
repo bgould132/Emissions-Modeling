@@ -1,0 +1,59 @@
+County,TOTALMSW,DISPOSALRATE
+Alameda,1.14,0.42
+Contra Costa,0.91,0.42
+Marin,1.5,0.42
+Napa,0.89,0.42
+San Francisco,1.4,0.42
+Solano,1.08,0.42
+Sonoma,1.22,0.44
+San Mateo,1.17,0.42
+Santa Clara,1,0.42
+Alpine,0.42,0.25
+Amador,0.66,0.25
+Butte,0.82,0.36
+Calaveras,0.5,0.25
+Colusa,0.86,0.36
+Del Norte,0.96,0.44
+El Dorado,0.54,0.25
+Fresno,1.24,0.36
+Glenn,0.77,0.36
+Humboldt,1.69,0.44
+Imperial,0.89,0.41
+Inyo,0.37,0.25
+Kern,1.08,0.41
+Kings,0.69,0.36
+Lake,0.57,0.36
+Lassen,0.54,0.25
+Los Angeles,0.89,0.41
+Madera,0.67,0.36
+Mariposa,0.35,0.25
+Mendocino,0.8,0.44
+Merced,1.24,0.36
+Modoc,0.27,0.25
+Mono,0.89,0.25
+Monterey,1.26,0.44
+Nevada,0.69,0.25
+Orange,1,0.41
+Placer,1.13,0.36
+Plumas,0.41,0.25
+Riverside,1.14,0.41
+Sacramento,0.82,0.36
+San Benito,0.83,0.44
+San Bernardino,0.8,0.41
+San Diego,0.89,0.41
+San Joaquin,0.73,0.36
+San Luis Obispo,1.11,0.41
+Santa Barbara,1.32,0.41
+Santa Cruz,1.26,0.44
+Shasta,0.66,0.25
+Sierra,0.27,0.25
+Siskiyou,0.36,0.25
+Stanislaus,1.09,0.36
+Sutter,0.92,0.36
+Tehama,0.69,0.36
+Trinity,0.56,0.25
+Tulare,0.78,0.36
+Tuolumne,0.58,0.25
+Ventura,0.85,0.41
+Yolo,1.38,0.36
+Yuba,1.09,0.36

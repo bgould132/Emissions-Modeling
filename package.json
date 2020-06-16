@@ -1,0 +1,29 @@
+{
+  "name": "coolclimate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "d3": "^4.5.0",
+    "d3-dsv": "^1.0.3",
+    "express": "^4.14.1",
+    "extrapolate": "^1.0.2",
+    "fs": "0.0.1-security",
+    "jquery": "^3.2.1",
+    "jsdom": "^10.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CoolClimateNetwork/CoolClimateNetwork.github.io.git"
+  },
+  "author": "Ben Gould",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CoolClimateNetwork/CoolClimateNetwork.github.io/issues"
+  },
+  "homepage": "https://github.com/CoolClimateNetwork/CoolClimateNetwork.github.io#readme"
+}
