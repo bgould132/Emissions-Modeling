@@ -390,7 +390,7 @@ function cityChange() {
     policySliderInit("Infill");
     
     $.when(
-        $.getJSON('https://coolclimatenetwork.github.io/data/tract/cities/' + CITY + '/allTracts-min.json', function (tracts_imported) {
+        $.getJSON('https://bgould132.github.io/Emissions-Modeling/data/tract/cities/' + CITY + '/allTracts-min.json', function (tracts_imported) {
             localeTracts = tracts_imported;
         })
     ).then(function() {
@@ -415,7 +415,7 @@ function countyChange() {
     policySliderInit("Infill");
     
     $.when(
-        $.getJSON('https://coolclimatenetwork.github.io/data/tract/counties/' + COUNTY + '/allTracts-min.json', function (tracts_imported) {
+        $.getJSON('https://bgould132.github.io/Emissions-Modeling/data/tract/counties/' + COUNTY + '/allTracts-min.json', function (tracts_imported) {
             localeTracts = tracts_imported;
         })
     ).then(function() {
@@ -1798,25 +1798,25 @@ varsInit();
 
 $.when(
     // offline testing version
-    $.getJSON('https://coolclimatenetwork.github.io/data/MSWTABLE.json', function (MSWTABLE_imported) {
+    $.getJSON('https://bgould132.github.io/Emissions-Modeling/data/MSWTABLE.json', function (MSWTABLE_imported) {
         MSWTABLE = MSWTABLE_imported;
     }),
-    $.getJSON('https://coolclimatenetwork.github.io/data/POPTABLE-min.json', function (POPTABLE_imported) {
+    $.getJSON('https://bgould132.github.io/Emissions-Modeling/data/POPTABLE-min.json', function (POPTABLE_imported) {
         POPTABLE = POPTABLE_imported;
     }),
-    $.getJSON('https://coolclimatenetwork.github.io/data/MPOHSRTABLE-min.json', function (MPOHSRTABLE_imported) {
+    $.getJSON('https://bgould132.github.io/Emissions-Modeling/data/MPOHSRTABLE-min.json', function (MPOHSRTABLE_imported) {
         MPOHSRTABLE = MPOHSRTABLE_imported;
     }),
-    $.getJSON('https://coolclimatenetwork.github.io/data/PUBLICTRANSTABLE-min.json', function (PUBLICTRANSTABLE_imported) {
+    $.getJSON('https://bgould132.github.io/Emissions-Modeling/data/PUBLICTRANSTABLE-min.json', function (PUBLICTRANSTABLE_imported) {
         PUBLICTRANSTABLE = PUBLICTRANSTABLE_imported;
     }),
-    $.getJSON('https://coolclimatenetwork.github.io/data/city/allCities-min.json', function (allCities_imported) {
+    $.getJSON('https://bgould132.github.io/Emissions-Modeling/data/city/allCities-min.json', function (allCities_imported) {
         allCities = allCities_imported;
     }),
-    $.getJSON('https://coolclimatenetwork.github.io/data/county/allCounties-min.json', function (allCounties_imported) {
+    $.getJSON('https://bgould132.github.io/Emissions-Modeling/data/county/allCounties-min.json', function (allCounties_imported) {
         allCounties = allCounties_imported;
     }),
-    $.getJSON('https://coolclimatenetwork.github.io/data/tract/cities/' + PLACE + '/allTracts-min.json', function (tracts_imported) {
+    $.getJSON('https://bgould132.github.io/Emissions-Modeling/data/tract/cities/' + PLACE + '/allTracts-min.json', function (tracts_imported) {
         localeTracts = tracts_imported;
     })
     /* for live version
