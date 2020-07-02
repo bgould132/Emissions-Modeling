@@ -548,12 +548,12 @@ function emissionsTractCalc(year) {
         localEmissions[tractID].kWh = ((ghgFactors.kWh + (ghgFactors.kWhindirect * efficiencyMultiplier("IndustrialEfficiency", year))) * efficiencyMultiplier("LowCarbonElectricity", year)) * ((kwhUseTracts(tract) * consumptionMultiplier("EnergyConsumption", year) * efficiencyMultiplier("EnergyEfficiencyNew", year)) + (kwhUseTracts(tract) * consumptionMultiplier("EnergyConsumption", year) * efficiencyMultiplier("EnergyEfficiencyExisting", year)));
 
         // this is insane
-        console.log("Gas: " + naturalGasThermsTracts(tract));
+        //console.log("Gas: " + naturalGasThermsTracts(tract));
         // NatGas
         localEmissions[tractID].NaturalGas = (ghgFactors.NGdirect + ghgFactors.NGindirect) * (naturalGasThermsTracts(tract) * ((consumptionMultiplier("EnergyConsumption", year) * efficiencyMultiplier("EnergyEfficiencyNew", year) * (1 - ((policyMultipliers.HeatingElectrificationNew * adoptionCurves.HeatingElectrificationNew[year]) - ELECTRICHEATNEW2010) / (1 - ELECTRICHEATNEW2010))) + ((consumptionMultiplier("EnergyConsumption", year) * efficiencyMultiplier("EnergyEfficiencyExisting", year)) * (1 - ((policyMultipliers.HeatingElectrificationExisting * adoptionCurves.HeatingElectrificationExisting[year]) - ELECTRICHEATEXISTING2010) / (1 - ELECTRICHEATEXISTING2010)))));
 
         // Fuel Oil
-        console.log("Oil: " + oilUseTracts(tract));
+        //console.log("Oil: " + oilUseTracts(tract));
         // For Chris: error in original excel cells regarding second + block missing first instance of 2050HH
         // Same insanity as NatGas
         localEmissions[tractID].FuelOil = (ghgFactors.FuelOildirect + ghgFactors.FuelOilindirect) * (oilUseTracts(tract) * ((consumptionMultiplier("EnergyConsumption", year) * efficiencyMultiplier("EnergyEfficiencyNew", year) * (1 - ((policyMultipliers.HeatingElectrificationNew * adoptionCurves.HeatingElectrificationNew[year]) - ELECTRICHEATNEW2010) / (1 - ELECTRICHEATNEW2010))) + ((consumptionMultiplier("EnergyConsumption", year) * efficiencyMultiplier("EnergyEfficiencyExisting", year)) * (1 - ((policyMultipliers.HeatingElectrificationExisting * adoptionCurves.HeatingElectrificationExisting[year]) - ELECTRICHEATEXISTING2010) / (1 - ELECTRICHEATEXISTING2010)))));
